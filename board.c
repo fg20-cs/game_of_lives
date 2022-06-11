@@ -43,3 +43,17 @@ boolean cell_state(int x, int y, board * b){
 
     return ((cell_state & bitmask) != 0);
 }
+
+int living_neighbors(int x, int y, board * b){
+
+    return cell_state(x - 1, y - 1, b) + cell_state(x    , y - 1, b) +
+           cell_state(x + 1, y - 1, b) + cell_state(x - 1, y    , b) +
+           cell_state(x + 1, y    , b) + cell_state(x - 1, y + 1, b) +
+           cell_state(x    , y + 1, b) + cell_state(x + 1, y + 1, b);
+}
+
+boolean updated_cell_state(int x, int y, board* b){
+    
+    int living_neighbor_cells = living_neighbors(x, y, b);
+    return (living_neighbor_cells == 3 || (cell_state(x, y, b) && (living_neighbor_cells == 2)));
+}

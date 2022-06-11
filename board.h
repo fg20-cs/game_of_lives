@@ -52,7 +52,7 @@ boolean pos_in_board(int x, int y, board * b);
 int cell_bitmask( int x, int y, board *b );
 boolean change_cell_state(int x, int y, boolean state, board * b);
 boolean cell_state(int x, int y, board * b);
-
-
+int living_neighbors(int x, int y, board * b);
+boolean updated_cell_state(int x, int y, board* b);
 
 #endif

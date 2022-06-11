@@ -50,6 +50,9 @@ typedef struct{
 int board_byte_size(int rows, int columns);
 boolean pos_in_board(int x, int y, board * b);
 int cell_bitmask( int x, int y, board *b );
+boolean change_cell_state(int x, int y, boolean state, board * b);
+boolean cell_state(int x, int y, board * b);
+
 
 
 #endif

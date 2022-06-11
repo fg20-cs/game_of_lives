@@ -23,3 +23,23 @@ int cell_bitmask( int x, int y, board *b ){
     return birmask;
 }
 
+boolean change_cell_state(int x, int y, boolean state, board * b){
+    if (!pos_in_board(x, y, b))
+        return FALSE;
+    int bitmask = cell_bitmask(x, y, b);
+    if (state)
+        return b->grid[(y*b->columns + x)/8] |= bitmask;
+
+    return b->grid[(y*b->columns + x)/8] &= ~bitmask;
+}
+
+boolean cell_state(int x, int y, board * b){
+
+    if (!pos_in_board(x, y, b))
+        return FALSE;
+
+    int bitmask = cell_bitmask(x, y, b);
+    int cell_state = b->grid[(( y*b->columns + x )/8)];
+
+    return ((cell_state & bitmask) != 0);
+}

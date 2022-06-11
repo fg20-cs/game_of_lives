@@ -57,3 +57,22 @@ boolean updated_cell_state(int x, int y, board* b){
     int living_neighbor_cells = living_neighbors(x, y, b);
     return (living_neighbor_cells == 3 || (cell_state(x, y, b) && (living_neighbor_cells == 2)));
 }
+
+board * board_init(int rows, int columns, int living_cell_num){
+
+    board* board1 = (board * )calloc(1, board_byte_size(rows, columns));
+    board1->rows = rows;
+    board1->columns = columns;
+
+    // Populate the board
+    integ randomX, randomY;
+    int bitmask;
+    for (int i = 0; i < living_cell_num; i++){
+
+        randomX = random()% columns;
+        randomY = random()% rows;
+        if (cell_state( randomX, randomY, board1 ) ){i--; continue;}
+        change_cell_state( randomX, randomY, TRUE, board1 );
+    }
+    return board1;
+}

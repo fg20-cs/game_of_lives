@@ -76,3 +76,26 @@ board * board_init(int rows, int columns, int living_cell_num){
     }
     return board1;
 }
+
+int update_board(board * b){
+
+    int living_cells_count = 0;
+    board* temp =(board *)malloc(board_byte_size(b->rows, b->columns));
+    if(temp == NULL){
+        fprintf(stderr, "Failed to intialize board!\n");
+        exit(1);
+    }
+
+    temp->rows = b->rows;
+    temp->columns = b->columns;
+    for (int y = 0; y < b->rows; y++){
+        for (int x = 0; x < b->columns; x++){
+            if ( change_cell_state( x, y, updated_cell_state(x, y, b), temp))
+                living_cells_count++;    
+        }
+    }
+    memcpy(b, temp, board_byte_size(b->rows, b->columns));
+    free(temp);
+
+    return living_cells_count;
+}

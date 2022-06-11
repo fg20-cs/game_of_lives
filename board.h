@@ -55,5 +55,7 @@ boolean cell_state(int x, int y, board * b);
 int living_neighbors(int x, int y, board * b);
 boolean updated_cell_state(int x, int y, board* b);
 board * board_init(int rows, int columns, int living_cell_count);
+int update_board(board * b);
+
 
 #endif

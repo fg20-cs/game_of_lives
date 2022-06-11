@@ -4,6 +4,7 @@ const integ POPULATION_INITIAL = 500;
 
 
 int main(int argc, char** argv){
+
     // Seting the SDL
     if (SDL_Init(SDL_INIT_VIDEO)){
         fprintf(stderr, "Error: could not initialize SDL: %s\n", SDL_GetError());
@@ -26,7 +27,7 @@ int main(int argc, char** argv){
     }
 
 
-// Initialize the board and the players view 
+    // Initialize the board and the players view on it
     view play_view;
     int window_W, window_H;
     SDL_GL_GetDrawableSize(window, &window_W, &window_H);
@@ -54,14 +55,17 @@ int main(int argc, char** argv){
     uint8_t quit = FALSE;
     uint8_t paused = FALSE;
 
-    draw_board(cell_board, &play_view, renderer);
+    draw_board( cell_board, &play_view, renderer );
 
     // Game loop
     while (!quit){
-    
+
+        while ( SDL_PollEvent( &e ) ){
+            if (e.type == SDL_QUIT)
+                    quit = TRUE;
+        }
         // Only update the board at the interval stored in ticks_per_lifecycle
         if (!((SDL_GetTicks() - last_update_time) < ticks_per_lifecycle) && !paused){
-
             living_cells = update_board(cell_board);
             last_update_time = SDL_GetTicks();
         }
@@ -70,8 +74,10 @@ int main(int argc, char** argv){
             fprintf(stderr, "ERROR: %s\n", SDL_GetError());
         draw_board(cell_board, &play_view, renderer);
     }
-    
+
     //Cleaning up
+    free(cell_board);
+
     SDL_DestroyRenderer(renderer);
     RendererCreationError:
 
@@ -81,8 +87,6 @@ int main(int argc, char** argv){
 
     SDL_Quit();
     SDLInitializationError:
-    
 
     return EXIT_SUCCESS;
 }
-

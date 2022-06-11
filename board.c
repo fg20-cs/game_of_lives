@@ -99,3 +99,37 @@ int update_board(board * b){
 
     return living_cells_count;
 }
+
+void draw_board(board * b, view * player_view, SDL_Renderer * renderer){
+    
+    integ R_chan, G_chan, B_chan;
+    boolean current_cell_alive;
+    SDL_Rect rectangle;
+    rectangle.w = rectangle.h = player_view->cellSize;
+    
+    int screenHeight, screenWidth;
+
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    for (int row = 0; row < player_view->cellHeight; row++){
+        for (int column = 0; column < player_view->cellWidth; column++){
+            current_cell_alive = cell_state((column + player_view->viewX), (row + player_view->viewY), b);
+
+            if(current_cell_alive){
+                R_chan = LIVING_CELL_R;
+                G_chan = LIVING_CELL_G;
+                B_chan = LIVING_CELL_B;
+            }
+            else{
+                R_chan = DEAD_CELL_R;
+                G_chan = DEAD_CELL_G;
+                B_chan = DEAD_CELL_B;
+            }
+            SDL_SetRenderDrawColor(renderer, R_chan, G_chan, B_chan, 255);
+
+            rectangle.x = column*player_view->cellSize;
+            rectangle.y = row*player_view->cellSize;
+            SDL_RenderDrawRect(renderer, &rectangle);
+        }
+    }
+    SDL_RenderPresent(renderer);
+}

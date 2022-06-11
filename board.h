@@ -25,11 +25,12 @@
 #define DEAD_CELL_G 15
 #define DEAD_CELL_B 15
 
-typedef Uint8 boole;
+typedef Uint8 boolean;
+typedef Uint32 integ;
 
 typedef struct{
     int rows, columns;
-    boole grid[0];
+    boolean grid[0];
 } board;
 
 typedef struct{
@@ -40,9 +41,15 @@ typedef struct{
         cellHeight,
         cellWidth,
         windowHeight,
-        windowWidth;
-        
+        windowWidth,
+        cellSpeed,
+        minPixelsSpeed;
+
 }view;
+
+int board_byte_size(int rows, int columns);
+boolean pos_in_board(int x, int y, board * b);
+int cell_bitmask( int x, int y, board *b );
 
 
 #endif
